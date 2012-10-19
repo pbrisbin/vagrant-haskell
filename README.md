@@ -1,27 +1,44 @@
-# Vagrant project for deploying Haskell to Heroku
+A vagrant box for working on Haskell projects.
 
-The project puts together the important parts of deploying Haskell to
-Heroku:
+## Background
 
-* Ubuntu 10.04
-* GHC 7.0.4
-* Haskell Platform 2011.4.0.0
-* Heroku Toolbelt
+A fork of puffnfresh's [bitbucket][] project which was based largely off 
+John Bender's [blog post][] and [project][].
 
-After running `vagrant up`, you should be able to run `vagrant
-ssh`. After you're in, you should be able to compile and deploy your
-project:
+[bitbucket]: https://bitbucket.org/puffnfresh/vagrant-haskell-heroku
+[blog post]: http://johnbender.us/2011/03/05/snap-setup-from-scratch-the-vagrant-way/
+[project]:   https://github.com/johnbender/snap-skeleton
 
-    git clone git@bitbucket.org:puffnfresh/my-haskell-project.git
-    cd my-haskell-project
-    git checkout -b deploy
-    cabal update
-    cabal install
-    git add -f dist/build/my-haskell-project/my-haskell-project
-    git commit -m "Deploy `date`"
-    git remote add heroku git@heroku.com:my-haskell-project.git
-    git push -f heroku deploy:master
+## Changes
 
-This work is largely based off John Bender's [blog
-post](http://johnbender.us/2011/03/05/snap-setup-from-scratch-the-vagrant-way/)
-and [project](https://github.com/johnbender/snap-skeleton).
+* Added apt recipe to get things working
+* Default shared directory (see Usage)
+
+## Planned changes
+
+* Automate cabal update
+* Remove heroku toolbelt (do that stuff in the host OS)
+* Networking settings for viewing yesod apps from host OS
+
+## Usage
+
+From within your haskell project directory:
+
+~~~ { .bash }
+# Add this project as a submodule
+$ git submodule add https://github.com/pbrisbin/vagrant-haskell ./vm
+$ git submodule update --init
+
+# Enter the submodule, bring up the VM, and SSH in
+$ cd ./vm
+$ vagrant up
+$ vagrant ssh
+
+# Within the VM update cabal (not strictly necessary, but a good idea)
+[guest]$ cabal update
+[guest]$ cabal install cabal-install
+
+# Navigate to the shared sources and build your project
+[guest]$ cd /app
+[guest]$ cabal install
+~~~
