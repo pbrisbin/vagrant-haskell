@@ -5,13 +5,14 @@ Vagrant::Config.run do |config|
   config.vm.box = "lucid64"
   config.vm.box_url = "http://files.vagrantup.com/lucid64.box"
 
+  sources = File.expand_path File.join(__FILE__, '..', '..')
+  project = File.basename(sources)
+
   config.vm.customize [
     "modifyvm", :id,
-    "--name",   "Haskell with Heroku",
+    "--name",   "Haskell VM - #{project}",
     "--memory", "1024"
   ]
-
-  sources = File.expand_path File.join(__FILE__, '..', '..')
 
   config.ssh.forward_agent = true
   config.vm.share_folder("v-src", "/app", sources)
