@@ -1,3 +1,9 @@
+**ARCHIVED**: This project has been Archived. I just develop natively with
+Stack now. Even if I didn't, I think Docker is now a better solution than
+Vagrant anyway. Cheers!
+
+---
+
 A vagrant box for working on Haskell projects.
 
 ## Background
